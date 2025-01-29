@@ -130,13 +130,69 @@ class _PlaylistsPageState extends State<PlaylistsPage> {
                         borderRadius: BorderRadius.circular(20),
                         child: Image.network(
                           data[index].thumbnail.toString(),
+                          fit: BoxFit.cover,
                         ),
                       ),
-                      Text(
-                        data[index].title,
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Text(
+                              data[index].title,
+                              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ),
+                            Icon(
+                              Icons.more,
                               color: Colors.white,
                             ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "${data[index].videosCount} videos",
+                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ),
+                            Text(
+                              "${data[index].hrs} hrs",
+                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Themes.primaryClr,
+                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                          ),
+                          onPressed: () {},
+                          child: Text(
+                            "Open",
+                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  color: Colors.white,
+                                ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
