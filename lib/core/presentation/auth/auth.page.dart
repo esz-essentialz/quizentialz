@@ -7,6 +7,7 @@ import 'package:quizentialz/core/api/client.appwrite.dart';
 import 'package:quizentialz/core/navigation/pages.dart';
 import 'package:quizentialz/core/theme/theme.dart';
 import 'package:quizentialz/other/loading.dialog.dart';
+import 'package:quizentialz/core/api/local.storage.dart' as ls;
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -182,16 +183,24 @@ class _LoginFormState extends State<LoginForm> {
                 ),
               ),
               onPressed: () async {
-                if (emailCont.text.isNotEmpty || passCont.text.isNotEmpty) {
-                  dialog.show(context);
-                  await AppwriteClient.auth.create(userId: ID.unique(), email: emailCont.text, password: passCont.text);
-                  await AppwriteClient.auth.createEmailPasswordSession(email: emailCont.text, password: passCont.text);
+                try {
+                  if (emailCont.text.isNotEmpty || passCont.text.isNotEmpty) {
+                    dialog.show(context);
+                    await AppwriteClient.auth.create(userId: ID.unique(), email: emailCont.text, password: passCont.text);
+                    await AppwriteClient.auth.createEmailPasswordSession(email: emailCont.text, password: passCont.text);
+                    await ls.Storage.pref.setBool("LOGGED_IN", true);
+                    if (context.mounted) {
+                      dialog.close(context);
+                      while (context.canPop()) {
+                        context.pop();
+                      }
+                      context.pushNamed(Pages.MAIN_PAGE);
+                    }
+                  }
+                } on Exception catch (e) {
+                  debugPrint(e.toString());
                   if (context.mounted) {
                     dialog.close(context);
-                    while (context.canPop()) {
-                      context.pop();
-                    }
-                    context.pushNamed(Pages.MAIN_PAGE);
                   }
                 }
               },

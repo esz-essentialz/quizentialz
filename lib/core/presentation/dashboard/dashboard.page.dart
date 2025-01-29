@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizentialz/core/presentation/main/main.page.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -68,7 +69,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
                   foregroundColor: Colors.white,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  SelectedDrawer.selectedIndex.value = 2;
+                },
                 child: Text(
                   "Play Now",
                 ),

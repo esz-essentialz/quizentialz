@@ -21,7 +21,7 @@ class _PlaylistsPageState extends State<PlaylistsPage> {
     isloading = true;
     final res = await AppwriteClient.databases.listDocuments(databaseId: "6799466d000f9af14149", collectionId: "6799467b000fc94d943c");
     for (final item in res.documents) {
-      data.add(PlaylistModel.fromMap(item.toMap()));
+      data.add(PlaylistModel.fromMap(item.data));
     }
     isloading = false;
     setState(() {});
@@ -76,7 +76,7 @@ class _PlaylistsPageState extends State<PlaylistsPage> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFFFC4C25),
                       ),
-                      onPressed: () {},
+                      onPressed: showDia,
                       child: Text(
                         'Add',
                         style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),
@@ -130,7 +130,6 @@ class _PlaylistsPageState extends State<PlaylistsPage> {
                         borderRadius: BorderRadius.circular(20),
                         child: Image.network(
                           data[index].thumbnail.toString(),
-                          fit: BoxFit.cover,
                         ),
                       ),
                       Text(

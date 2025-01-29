@@ -75,9 +75,13 @@ class DrawerItem {
   int get hashCode => id.hashCode ^ title.hashCode ^ icon.hashCode;
 }
 
-class _MainPageState extends State<MainPage> {
-  int selectedIndex = 0;
+class SelectedDrawer {
+  SelectedDrawer._();
 
+  static RxInt selectedIndex = 0.obs;
+}
+
+class _MainPageState extends State<MainPage> {
   static final drawerList = <DrawerItem>[
     DrawerItem(id: 0, title: "Dashboard", icon: "assets/icons/home.png"),
     DrawerItem(id: 1, title: "Playlist", icon: "assets/icons/playlist.png"),
@@ -96,7 +100,7 @@ class _MainPageState extends State<MainPage> {
 
   void onItemTapped(int index) {
     setState(() {
-      selectedIndex = index;
+      SelectedDrawer.selectedIndex.value = index;
     });
   }
 
@@ -173,27 +177,31 @@ class _MainPageState extends State<MainPage> {
                             ),
                             onPressed: () {
                               setState(() {
-                                selectedIndex = e.id;
+                                SelectedDrawer.selectedIndex.value = e.id;
                               });
                             },
                             child: Column(
                               children: [
-                                Text(
-                                  e.title.toUpperCase(),
-                                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                        color: selectedIndex == e.id ? Colors.white : Colors.grey,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                Obx(
+                                  () => Text(
+                                    e.title.toUpperCase(),
+                                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                          color: SelectedDrawer.selectedIndex.value == e.id ? Colors.white : Colors.grey,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
                                 ),
-                                AnimatedSize(
-                                  duration: Duration(milliseconds: 400),
-                                  child: Container(
-                                    margin: EdgeInsets.only(top: 5),
-                                    width: selectedIndex == e.id ? 40 : 0,
-                                    height: 3,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(360),
-                                      color: Themes.btnColor,
+                                Obx(
+                                  () => AnimatedSize(
+                                    duration: Duration(milliseconds: 400),
+                                    child: Container(
+                                      margin: EdgeInsets.only(top: 5),
+                                      width: SelectedDrawer.selectedIndex.value == e.id ? 40 : 0,
+                                      height: 3,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(360),
+                                        color: Themes.btnColor,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -218,9 +226,11 @@ class _MainPageState extends State<MainPage> {
                 ],
               ),
               Expanded(
-                child: IndexedStack(
-                  index: selectedIndex,
-                  children: _widgetOptions,
+                child: Obx(
+                  () => IndexedStack(
+                    index: SelectedDrawer.selectedIndex.value,
+                    children: _widgetOptions,
+                  ),
                 ),
               ),
             ],

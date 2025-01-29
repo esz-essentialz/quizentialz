@@ -1,6 +1,5 @@
-import 'package:appwrite/appwrite.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quizentialz/core/api/client.appwrite.dart';
+import 'package:quizentialz/core/api/local.storage.dart';
 import 'package:quizentialz/core/navigation/pages.dart';
 import 'package:quizentialz/core/presentation/auth/auth.page.dart';
 import 'package:quizentialz/core/presentation/landing/landing.page.dart';
@@ -10,7 +9,7 @@ class Routes {
   Routes._();
 
   static final router = GoRouter(
-    initialLocation: Pages.MAIN_PAGE,
+    initialLocation: (Storage.pref.getBool("LOGGED_IN") ?? false) ? Pages.MAIN_PAGE : Pages.MAIN_PAGE,
     routes: [
       GoRoute(
         name: Pages.LANDING_PAGE,
@@ -28,13 +27,5 @@ class Routes {
         builder: (context, state) => AuthPage(),
       ),
     ],
-    redirect: (context, state) async {
-      try {
-        await AppwriteClient.auth.get();
-        return null;
-      } on AppwriteException catch (_) {
-        return Pages.AUTH_PAGE;
-      }
-    },
   );
 }
