@@ -18,6 +18,9 @@ dependencies:
   flutter_svg: ^2.0.17
   simple_loading_dialog: ^1.0.0
   shared_preferences: ^2.4.0
+  drop_down_search_field: ^1.1.1
+  cached_network_image: ^3.4.1
+  http: ^1.3.0
 
 dev_dependencies:
   flutter_test:

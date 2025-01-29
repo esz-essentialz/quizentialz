@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
@@ -11,6 +12,7 @@ import 'core/theme/theme.dart';
 void main() async {
   AppwriteClient.init();
   await Storage.init();
+  
   runApp(const MainApp());
 }
 
